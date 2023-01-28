@@ -3,35 +3,6 @@ import struct  # 바이트(bytes) 형식의 데이터 처리 모듈
 import pickle  # ﻿객체의 직렬화 및 역직렬화 지원 모듈﻿
 import cv2  # OpenCV(실시간 이미지 프로세싱) 모듈
 
-
-mouse_pressed = False
-s_x = s_y = e_x = e_y = p_x = p_y = -1
-drag_status = -1
-
-def mouse_click(event,x,y,flags,param):
-    global s_x,s_y,e_x,e_y,mouse_pressed, drag_status
-
-    if event==cv2.EVENT_LBUTTONDOWN:
-        mouse_pressed = True
-        s_x, s_y = x,y
-
-
-    elif event == cv2.EVENT_MOUSEMOVE:
-        if mouse_pressed: #drag
-            drag_status = 1
-        else:
-            p_x, p_y = x,y
-            print("마우스 위치  x: ", p_x, " y: ", p_y)
-
-    elif event == cv2.EVENT_LBUTTONUP:
-        mouse_pressed = False
-        e_x,e_y = x,y
-        print("마우스 클릭  x: ", s_x, " ~ ", e_x, " y: ", s_y, " ~ ", e_y)
-
-cv2.namedWindow('Frame')
-cv2.setMouseCallback('Frame',mouse_click)
-
-
 # 서버 ip 주소 및 port 번호
 ip = '192.168.0.10'
 port = 50001
@@ -84,7 +55,7 @@ while True:
     frame_data = data_buffer[:frame_size]
     data_buffer = data_buffer[frame_size:]
 
-    #print("수신 프레임 크기 : {} bytes".format(frame_size))
+    print("수신 프레임 크기 : {} bytes".format(frame_size))
 
     # loads : 직렬화된 데이터를 역직렬화
     # - 역직렬화(de-serialization) : 직렬화된 파일이나 바이트 객체를 원래의 데이터로 복원하는 것
